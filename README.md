@@ -254,6 +254,7 @@ onSelectDayChanged其实就是对用户点击DayNumber行为的事件回调，�
 ## 可以改善的地方
 1. 国际化支持
 2. 自定义颜色传入
+3. 后续发布到Flutter Pub
 
 ## 代码地址
 本例中相关的代码放在
