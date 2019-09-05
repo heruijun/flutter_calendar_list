@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar/calendar_notification.dart';
 
 import 'day_number.dart';
 import 'month_title.dart';
@@ -79,10 +80,6 @@ class _MonthViewState extends State<MonthView> {
           isToday: isToday,
           isDefaultSelected: isDefaultSelected,
           todayColor: widget.todayColor,
-          onDayTap: (day) {
-            selectedDate = DateTime(widget.year, widget.month, day);
-            widget.onSelectDayRang(selectedDate);
-          },
         ),
       );
 
@@ -104,23 +101,30 @@ class _MonthViewState extends State<MonthView> {
   }
 
   Widget buildMonthView(BuildContext context) {
-    return Container(
-      width: 7 * getDayNumberSize(context, widget.padding),
-      margin: EdgeInsets.all(widget.padding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          MonthTitle(
-            month: widget.month,
-            monthNames: widget.monthNames,
+    return NotificationListener<CalendarNotification>(
+        onNotification: (notification) {
+          selectedDate =
+              DateTime(widget.year, widget.month, notification.selectDay);
+          widget.onSelectDayRang(selectedDate);
+          return true;
+        },
+        child: Container(
+          width: 7 * getDayNumberSize(context, widget.padding),
+          margin: EdgeInsets.all(widget.padding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              MonthTitle(
+                month: widget.month,
+                monthNames: widget.monthNames,
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 8.0),
+                child: buildMonthDays(context),
+              ),
+            ],
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 8.0),
-            child: buildMonthDays(context),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 
   @override

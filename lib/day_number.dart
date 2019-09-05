@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar/calendar_notification.dart';
 
 class DayNumber extends StatefulWidget {
   const DayNumber({
@@ -7,14 +8,12 @@ class DayNumber extends StatefulWidget {
     @required this.isDefaultSelected,
     this.isToday,
     this.todayColor = Colors.blue,
-    this.onDayTap,
   });
 
   final int day;
   final bool isToday;
   final Color todayColor;
   final double size;
-  final Function onDayTap;
   final bool isDefaultSelected;
 
   @override
@@ -50,11 +49,9 @@ class _DayNumberState extends State<DayNumber> {
   Widget build(BuildContext context) {
     isSelected = widget.isDefaultSelected;
     return widget.day > 0
-        ? InkWell(onTap: () => _selectDay(widget.day), child: _dayItem())
+        ? InkWell(
+            onTap: () => CalendarNotification(widget.day).dispatch(context),
+            child: _dayItem())
         : _dayItem();
-  }
-
-  _selectDay(int day) {
-    widget.onDayTap(day);
   }
 }
